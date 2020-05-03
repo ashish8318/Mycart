@@ -1,0 +1,43 @@
+
+        {% extends 'formbase.html' %}
+        {% block body %}
+        <div  style="width:500px;z-index: 4; position: relative; padding-top:50px;">
+          <form method="POST" action="{% url 'varification' %}">
+            {% csrf_token %}
+            <div class="imgcontainer">
+              <span style="font-size: 3em; color: Tomato;"><i class="fab fa-shopify"></i></span>
+              
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-success" role="alert">
+              {{message}}
+            </div>
+            {% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger" role="alert">
+              {{message}}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            <div class="container">
+              <label for="useremail"><b>Email Id</b></label>
+              <input type="text" value="{{Email}}"  name="Email"  class="border" disabled style="text-align: center;">
+              <label for="verify"><b>Verification  Code</b></label>
+              <input type="text" placeholder="Enter Varification code" name="verify" class="border" required style="text-align: center;">
+              <input type="hidden" value="{{password}}" name="password" >
+               <input type="hidden" value="{{name}}" name="user" >
+              <input type="submit" class="btn btn-success btn-block mt-4" value="Verification Now" name="abc">
+              
+            </div>
+          
+            <div class="container" style="background-color:#f1f1f1">
+            <a class="btn btn-danger btn-md mt-2" href="{% url 'about' %}">Cancle</a>
+            <a class="btn btn-primary btn-md mt-2" href="{% url 'newaccount' %}" >Try again</a>
+            </div>
+          </form>
+        <div>
+      {% endblock %}
+  

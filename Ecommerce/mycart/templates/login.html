@@ -1,0 +1,50 @@
+
+     {% extends 'formbase.html' %}
+     {% block body %}
+     {% load static %}
+          <!-- <img src='{% static "image/desc75.jpg" %}' class=".img-fluid animated infinite rotateOutDownRight delay-2s" style="left:20px;top:100px;position:relative;width:100px; height:100px; border: none;"> -->
+        <div style="width:500px;z-index: 4; position: relative; padding-top:50px;">
+          <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div class="imgcontainer">
+              <span style="font-size: 3em; color: Tomato;"><i class="fab fa-shopify"></i></span>
+              
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-success" role="alert">
+              {{message}}
+            </div>
+            {% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger" role="alert">
+              {{message}}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            <div class="container">
+              <label for="email"><b>Email Id</b></label>
+              <input type="email" placeholder="Enter Email" name="email" class="border">
+          
+              <label for="psw"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="password" class="border" required>
+          
+              <input class="btn btn-primary btn-block mt-4" type="submit" value="Login">
+              
+            </div>
+          </form>
+          <div class="container" style="background-color:#f1f1f1">
+            <a href="{% url "social:begin" "google-oauth2" %}" style="color:#758AA2;"><i class="fa-2x fab fa-google-plus"></i></a><br><br>
+            <a style="text-decoration: none;" href="/admin">Admin login</a><br>
+            <a style="text-decoration: none;" href="{% url 'newaccount' %}">New Account</a><br>
+            <a href="{% url 'change' %}" style="text-decoration: none;">Forget password?</a><br><br>
+            <a href="{% url 'about' %}"><i class=" fa-2x fas fa-arrow-circle-left"></i></a>
+          </div>
+        </div>
+       
+        <!-- <img src='{% static "image/75desc.png"%}' class=".img-fluid animated infinite hinge delay-2s" style="left:800px;bottom:100px;position:relative;width:100px; height:100px;">
+        <img src='{% static "image/cart2.png" %}' class=".img-fluid animated infinite rollIn delay-2s" style="right:800px;right:100px;position:relative;width:100px; height:100px;">
+        <img src='{% static "image/star.png" %}'' class=".img-fluid animated infinite tada delay-2s" style="top:-400px;left:600px;position:relative;width:100px; height:100px;"> -->
+    {% endblock %}

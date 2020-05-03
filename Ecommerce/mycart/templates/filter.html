@@ -1,0 +1,310 @@
+{% load static %}
+{% load app_filter %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Search</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Frontawsome -->
+    <script src="https://kit.fontawesome.com/e201f10109.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <!-- Css File -->
+ <link rel="stylesheet" type="text/css" href='{% static "Ecommerce.css" %}'>
+ <!-- dark css -->
+ <link rel="stylesheet" href='{% static "dark-mode.css" %}'>
+
+    <style type="text/css">
+
+#loading{
+  width:100%;
+  height: 100vh;
+  background: #fff url("image/45.gif")
+  no-repeat center;
+  position: fixed;
+  z-index: 9999999;;
+}
+  .slider1 {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 3px;  
+    background: #DAE0E2;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+    .slider2 {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 3px;  
+    background: #DAE0E2;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider1::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height:15px;
+    border-radius: 50%; 
+    background: #25CCF7;
+    cursor: pointer;
+  }
+  
+  .slider2::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; 
+    background: #25CCF7;
+    cursor: pointer;
+  }
+  
+  .slider1::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #25CCF7;
+    cursor: pointer;
+  }
+  
+  .slider2::-moz-range-thumb {
+    width: 15px;
+    height:15px;
+    border-radius: 50%;
+    background: #25CCF7;
+    cursor: pointer;
+  }
+  
+  .goto{
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    background: #01CBC6;
+    bottom: 20px;
+    right: 30px;
+    text-orientation: none;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+  }  
+    </style>
+    </head>
+    <body onload="myload()">
+      <div  id="loading"></div>
+      <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary" id="go">
+          <a class="navbar-brand" href="#"><span style="font-size: 2em; color: Tomato;">
+              <i class="fab fa-shopify"></i>
+            </span></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link pl-4" href="{% url 'about' %}">Home<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link pl-4" href="{% url 'dashbord' %}">Dashbord</a>
+              </li>
+              <li class="nav-item active">
+                {% if login %}
+                <a class="nav-link pl-4" href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                <a class="nav-link pl-4" href="{% url 'login' %}">Login</a>
+                {% endif %}
+              </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class=" nav-link  pl-4" href="#"><i class="fas fa-user fa-2x"> <small style="font-size:15px;font-family: 'Rubik', sans-serif;">
+                {% if user.is_authenticated %}
+                {{user.first_name|title}}
+                {% else %}
+                {{name|title}}
+                {% endif %}
+              </small></i></a>
+              </li>
+              <li class="nav-item">
+                {% if lenth %}
+                <a class=" nav-link active pl-4" href="{% url 'showcart' %}" style="color: yellow;"><i class="fas fa-shopping-bag fa-2x"><span><small class="badge badge-pill badge-info" style="font-size:15px;">{{lenth}}</small></span></i></a>
+                {% else %}
+                <a class=" nav-link active pl-4" href="{% url 'showcart' %}" style="color: yellow;"><i class="fas fa-shopping-bag fa-2x"></i></a>
+                {% endif %}
+                </li>
+                <li class="nav-item">
+                  <div class="custom-control custom-switch mt-3">
+                    <input type="checkbox" class="custom-control-input" id="darkSwitch">
+                    <label class="custom-control-label text-white" for="darkSwitch">Dark Mode</label>
+                  </div>
+                </li>
+            </ul>
+        
+          </div>
+        </nav>
+        <!-- Message code -->
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <div class="alert alert-danger " role="alert">
+    <img class=".img-fluid" src='{% static "image/invalid.png" %}' style="width:15px; height:15px;"><span>
+    {{message}}
+    {% endif %}</span>
+  </div>
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+  <div class="alert alert-success" role="alert">
+  <img class=".img-fluid" src='{% static "image/valid.png" %}' style="width:15px; height:15px;"><span>
+  {{message}}
+  {% endif %}</span>
+</div>
+  {% endfor %}
+  {% endif %}
+<!-- End message code -->
+   <div class="row mt-3">
+    <div class="col-12 col-md-3 col-lg-3 col-xl-3" style="overflow-x:hidden; overflow-y:scroll;  height: 500px; position: relative;;">
+      <form class="form" action="{% url 'filter' %}" method='post'>
+        {% csrf_token %}
+         <div class="slidecontainer">
+         <input type="range" min="{{minprice}}" max="{{maxprice}}" value="{{minprice}}" class="slider1" id="myRange" name="minp"></div>
+         <span id="demo" class="text-white text-center ml-1 bg-warning p-1"><strong>Rs</strong></span>
+         <label>Min Price</label><br>
+         <div class="slidecontainer">
+         <input type="range" min="{{minprice}}" max="{{maxprice}}" value="{{maxprice}}" class="slider2" id="my" name="maxp"></div>
+         <span id="demo2" class="text-white text-center ml-1 bg-warning p-1"><strong>Rs</strong></span>
+         <label>Max price</label><br>
+         <label class="ml-2">Discount</label>
+         <input class="form-control" type="number"  placeholder="Discount" min="0" max="100"Discount" name="Discount">
+         <label>Quality</label>
+         <select class="form-control"  placeholder="Quality" name="quality">
+        {% for i in quality %} 
+        <option value='{{i}}'>{{i}}</option>
+        {% endfor %}
+        </select>
+         <label>Brand</label>
+         <select class="form-control"  name="brand">
+          {% for i in brand %} 
+          <option value='{{i}}' >{{i}}</option>
+          {% endfor %}
+          </select>
+      </select>
+        <label>Category</label>
+         <select class="form-control"  name="category" >
+          {% for i in Category %} 
+          <option value='{{i}}' >{{i}}</option>
+          {% endfor %}
+          </select>
+        </select>
+        <label>Color</label>
+         <select class="form-control"  name="color" >
+          {% for i in Color %} 
+          <option value='{{i}}' >{{i}}</option>
+          {% endfor %}
+          </select>
+        </select>
+         <label>Size</label>
+         <select class="form-control"   name="size" >
+          {% for i in size %} 
+          <option value='{{i}}' >{{i}}</option>
+          {% endfor %}
+          </select>
+        </select><br>
+        <input class="form-control" type="text" name="search" placeholder="Search"><br>
+         <input class="btn btn-primary btn-lg btn-block" type="submit" value="Search">
+         </form>
+    </div>
+    <!-- <div class="container col-9 mt-5"> -->
+      <div class="col-12 col-sm-9 col-md-9 col-9 col-xl-9">
+        <div class="row" style="margin-left:0px;">
+          {% for i in product %}
+          <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 mt-2">
+            <div class="card" style="width:300px;">
+              <img class="card-img-top" src='/media/{{i.Image1}}' alt="Card image cap" class="img-thumbnail" style="width:300px; height:200px;">
+              <div class="card-body" style="width:300px;">
+                {% if i.pub_date|diff_date <= 50  %}
+                <p class="text-center newarival"> New </p>
+                {% else %}
+                <p class="text-center newarival bg-danger ">{{i.Offer}}% Of</p>
+                {% endif %}
+                 <h5 class="mt-0 pt-0">{{i.product_name}}</h5>
+                 {% if i.p_rate == 1 %}
+                <img src='{% static "image/star.png" %}' class="star">
+                {% endif %} 
+                {% if i.p_rate == 2 %}
+                <img src='{% static "image/star.png" %}' class="star"><span>
+                  <img src='{% static "image/star.png" %}' class="star"></span>
+                {% endif %} 
+                {% if i.p_rate == 3 %}
+                <img src='{% static "image/star.png" %}' class="star"><span>
+                  <img src='{% static "image/star.png" %}' class="star">
+                  <img src='{% static "image/star.png" %}' class="star">
+                </span>
+                {% endif %} 
+                {% if i.p_rate == 4 %}
+                <img src='{% static "image/star.png" %}' class="star"><span>
+                  <img src='{% static "image/star.png" %}' class="star">
+                  <img src='{% static "image/star.png" %}' class="star">
+                  <img src='{% static "image/star.png" %}' class="star">
+                </span>
+                {% endif %} 
+                <p class="m-1 p-0"><b>Price :</b> {{i.price}}Rs</p>
+                <p class="m-1 p-0"><b>Brand :</b> {{i.Brand}}</p>
+                <a href='/shop/addcart/{{i.id}}' class="btn btn-primary mt-1 ml-1">Addcart</a>
+                <a href='/shop/proddesc/{{i.id}}' class="btn btn-primary mt-1 ml-1">View</a>
+              </div>
+            </div></div>
+          {% if forloop.counter|divisibleby:2 and not forloop.last %}
+          </div><div class="row">
+          {% endif %}
+          {% endfor %}
+        </div></div></div>
+    <!-- End show -->
+  </div>
+   <script type="text/javascript">
+  var slider1 = document.getElementById("myRange");
+  var output1 = document.getElementById("demo");
+  output1.innerHTML = slider1.value; // Display the default slider value
+  
+  slider1.oninput = function() {
+    output1.innerHTML = this.value;
+  }
+  var slider2 = document.getElementById("my");
+  var output2 = document.getElementById("demo2");
+  output2.innerHTML = slider2.value;
+  // Update the current slider value (each time you drag the slider handle)
+  slider2.oninput = function() {
+    output2.innerHTML = this.value;
+  }
+   </script>
+  <script type="text/javascript">
+    var preloader=document.getElementById('loading');
+    function myload(){
+      preloader.style.display='none';
+    }
+    </script>
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+      <footer class="text-center text-muted mb-4" style="width: 100%; height: 100px;"><small style="font-family: 'Dosis',sans-serif; line-height: 100px; text-align: center;">Created By Ashish Kumar 12 December 2020</small></footer>
+      <!-- goto -->
+      <a href="#go" class="goto"><i class="fas fa-arrow-up"></i></a>
+      <!-- Start dark mode -->
+    <script src='{% static "dark-mode-switch.min.js" %}'></script>
+    <!-- End dark mode -->
+    </body>
+  </html>
+  

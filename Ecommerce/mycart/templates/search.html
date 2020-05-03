@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load app_filter %}
+{% if messages %}
+    {% for message in messages %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <div class="alert alert-danger" role="alert">
+    <img class=".img-fluid" src='{% static "image/invalid.png" %}' style="width:20px; height:20px;"><span>
+    {{message}}
+    {% endif %}</span>
+  </div>
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+  <div class="alert alert-success" role="alert">
+  <img class=".img-fluid" src='{% static "image/explation.png" %}' style="width:20px; height:20px;"><span>
+  {{message}}
+  {% endif %}</span>
+   </div>
+  {% endfor %}
+  {% endif %}
+  <!-- Start Search  -->
+<div class="container mt-5">
+    <div class="row">
+      {% for i in product %}
+      <div class="col- col-sm-6 col-md-4 col-lg-4 col-xl-4">
+        <div class="card" style="width:300px;">
+          <img class="card-img-top" src='/media/{{i.Image1}}' alt="Card image cap" class="img-thumbnail" style="width:300px; height:200px;">
+          <div class="card-body" style="width:300px;">
+            {% if i.pub_date|diff_date <= 50  %}
+            <p class="text-center newarival"> New </p>
+            {% else %}
+            <p class="text-center newarival bg-danger ">{{i.Offer}}% Of</p>
+            {% endif %}
+             <h5 class="mt-0 pt-0">{{i.product_name}}</h5>
+             {% if i.p_rate == 1 %}
+            <img src='{% static "image/star.png" %}' class="star">
+            {% endif %} 
+            {% if i.p_rate == 2 %}
+            <img src='{% static "image/star.png" %}' class="star"><span>
+              <img src='{% static "image/star.png" %}' class="star"></span>
+            {% endif %} 
+            {% if i.p_rate == 3 %}
+            <img src='{% static "image/star.png" %}' class="star"><span>
+              <img src='{% static "image/star.png" %}' class="star">
+              <img src='{% static "image/star.png" %}' class="star">
+            </span>
+            {% endif %} 
+            {% if i.p_rate == 4 %}
+            <img src='{% static "image/star.png" %}' class="star"><span>
+              <img src='{% static "image/star.png" %}' class="star">
+              <img src='{% static "image/star.png" %}' class="star">
+              <img src='{% static "image/star.png" %}' class="star">
+            </span>
+            {% endif %} 
+            <p class="m-1 p-0"><b>Price :</b> {{i.price}}Rs</p>
+            <p class="m-1 p-0"><b>Brand :</b> {{i.Brand}}</p>
+            <a href='/shop/addcart/{{i.id}}' class="btn btn-primary mt-1 ml-1">Addcart</a>
+            <a href='/shop/proddesc/{{i.id}}' class="btn btn-primary mt-1 ml-1">View</a>
+          </div>
+        </div>
+      </div>
+      {% if forloop.counter|divisibleby:3 and not forloop.last %}
+    </div>
+    <div class="row">
+      {% endif %}
+      {% endfor %}
+      </div></div>
+      <!-- search-- -->
+{% endblock %}

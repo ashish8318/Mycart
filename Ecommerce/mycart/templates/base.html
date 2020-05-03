@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai+2&display=swap" rel="stylesheet">
+  <!-- End -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>My Cart</title>
+    <!-- Frontawsome -->
+    <script src="https://kit.fontawesome.com/e201f10109.js" crossorigin="anonymous"></script>
+    <!-- Css File -->
+    <link rel="stylesheet" type="text/css" href='{% static "Ecommerce.css" %}'>
+    <!-- dark css -->
+    <link rel="stylesheet" href='{% static "dark-mode.css" %}'>
+    <!-- Animate .css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <!-- Animate on scorol -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- Zoom -->
+   <link rel="stylesheet" href='{% static "style.css" %}'>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script src='{% static "jqzoom.js" %}'></script>
+   <style>
+     .goto{
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    background: #01CBC6;
+    bottom: 20px;
+    right: 30px;
+    text-orientation: none;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+/* google */
+    font-family: 'Rubik', sans-serif;
+  }  
+   </style>
+  </head>
+  <body onload="myload()">
+    <div  id="loading"></div>
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary" id="go">
+        <a class="navbar-brand" href="{% url 'about' %}"><span style="font-size: 2em; color: Tomato;">
+            <i class="fab fa-shopify"></i>
+          </span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link pl-4 " href="{% url 'about' %}">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link pl-4 " href="{% url 'dashbord' %}">Dashbord</a>
+            </li>
+            <li class="nav-item active">
+              {% if user.is_authenticated %}
+              <a class="nav-link pl-4 " href="{% url 'logout' %}">Logout</a>
+              {% else %}
+
+              {% if login %}
+              <a class="nav-link pl-4 " href="{% url 'logout1' %}">Logout</a>
+              {% else %}
+              <a class="nav-link pl-4 " href="{% url 'login' %}">Login</a>
+              {% endif %}
+
+             {% endif %}
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class=" nav-link  pl-4" href="#"><i class="fas fa-user fa-2x"> <small style="font-size:15px;font-family: 'Rubik', sans-serif;">
+              {% if user.is_authenticated %}
+              {{user.first_name|title}}
+              {% else %}
+              {{name|title}}
+              {% endif %}
+            </small></i></a>
+            </li>
+            <li class="nav-item active">
+                {% if lenth %}
+                <a class=" nav-link pl-4" href="{% url 'showcart' %}" style="color: yellow;"><i class="fas fa-shopping-bag fa-2x"><span><small class="badge badge-pill badge-info" style="font-size:15px;">{{lenth}}</small></span></i></a>
+                {% else %}
+                <a class=" nav-link pl-4" href="{% url 'showcart' %}" style="color: yellow;"><i class="fas fa-shopping-bag fa-2x"></i></a>
+                {% endif %}
+              </li>
+              <li class="nav-item">
+                <div class="custom-control custom-switch mt-3">
+                  <input type="checkbox" class="custom-control-input" id="darkSwitch">
+                  <label class="custom-control-label text-white" for="darkSwitch">Dark Mode</label>
+                </div>
+              </li>
+          </ul>
+      
+        </div>
+      </nav>
+      <div>
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" style="color: turquoise;" href="{%url 'filter' %}" ><i class="fas fa-filter"></i> Filter</a>
+        <!-- By all -->
+        {% if payment %}
+<button type="button" class="btn btn-primary ml-auto mr-2" data-toggle="modal" data-target=".bd-example-modal-lg">Buy All</button>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Color</th>
+            <th scope="col">Size</th>
+            <th scope="col">Available</th>
+            <th scope="col">Offer</th>
+            <th scope="col">price</th>
+            <th scope="col">After offer Rs</th>
+            <th scope="col">Total Rs</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in payment %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            {% for key,value in i.items %}
+            <td>{{value}}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+          <tr class="text-danger">
+          <td colspan="9"></td>
+          {% if Total %}
+            <td class="table-active"">Rs {{Total}}</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+      <div class="mx-auto mb-2">
+        <form action="{% url 'multiorder' %}" method="post">
+          {% csrf_token %}
+       
+        <input type="submit" value="Payment" class="btn btn-primary">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<!-- End by all -->
+        <form class="form-inline" action="{% url 'search' %}" method="post">
+          {% csrf_token %}
+          <input class="form-control mr-sm-2 " type="text" placeholder="Search" aria-label="Search" name="search">
+          <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">
+        </form>
+      </nav>
+      </div>
+        
+      {% block body %} {% endblock %} 
+      <a href="#go" class='goto'><i class="fas fa-arrow-up"></i></a>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+    <footer class="footer mt-auto py-3 text-center">
+      <div class=" inner">
+        <span class="text-muted mb-4 text-center">Created by Ashish Kumar 12 December 2020 </span>
+      </div>
+    </footer>
+    <!-- Start dark mode -->
+    <script src='{% static "dark-mode-switch.min.js" %}'></script>
+    <!-- End dark mode -->
+<script type="text/javascript">
+var preloader=document.getElementById('loading');
+function myload(){
+  preloader.style.display='none';
+}
+</script>
+  </body>
+</html>

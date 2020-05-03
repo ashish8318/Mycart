@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai+2&display=swap" rel="stylesheet">
+  <!-- End -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>My Cart</title>
+    <!-- Frontawsome -->
+    <script src="https://kit.fontawesome.com/e201f10109.js" crossorigin="anonymous"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  
+   <style>
+     *{margin: 0;
+     box-sizing: border-box;
+     }
+     h1{text-align: center;padding: 15px;}
+     .star-rating{
+       width: 100%;
+       height: 100vh;
+       display:flex;flex-direction: column;
+       justify-content: center;
+       align-items: center;
+     
+     }
+     .stars{
+       width: 400px;
+       height: 100px;
+       justify-content: center;
+       align-items: center;
+       display:flex;
+       background: red;
+     }
+     .star{
+       list-style: none;
+       font-size: 4rem;
+       padding-left: 20px;
+      color: white;
+     }
+     .star:first-child
+     {padding-left:0px;}
+     .orange{color:orange}
+     .yellow{color: yellow;}
+   </style>
+  </head>
+  <body>
+       
+  <div class="star-rating">
+    <h1>Welcome</h1>
+    <textarea></textarea><br>
+    <ul class="stars">
+      <li class="star"><i class="fa fa-star"></i></li>
+      <li class="star"><i class="fa fa-star"></i></li>
+      <li class="star"><i class="fa fa-star"></i></li>
+      <li class="star"><i class="fa fa-star"></i></li>
+    </ul>
+    <p class="output">rating</p>
+  </div>
+    <script>
+      const stars=document.querySelectorAll('.star');
+      const output=document.querySelector('.output');
+      for(x=0; x < stars.length; x++){
+      stars[x].starValue=(x+1);
+      // stars[x].addEventListener('click',function(){
+      //   console.log("Click");
+      // })
+      ["click","mouseover","mouseout"].forEach(function(e){
+        stars[x].addEventListener(e,ShowRating);
+      })}
+      function ShowRating(e){
+        let type = e.type;
+        let starValue = this.starValue
+        console.log(starValue);
+
+        if(type==='click'){
+          if(starValue >= 1){
+            output.innerHTML="abc"+starValue
+          }
+        }
+        stars.forEach(function(elem,ind){
+          if(type ==='click')
+          {
+            if (ind < starValue){
+              elem.classList.add("orange");
+              console.log("ok");
+            }
+            else{
+              elem.classList.remove("orange")
+              console.log("no");
+            }
+          }
+         
+        })
+      }
+    </script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

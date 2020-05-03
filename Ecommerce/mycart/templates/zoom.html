@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+      {% block body %}
+      {% load static %}
+      <!-- Image Zoom -->
+    <div class="container">
+          <div class="bzoom_wrap">
+            <ul id="zoom">
+              {% for p in product %}
+              <li>
+             <img class="bzoom_thumb_image" src='/media/{{p.Image1}}' title="first img" alt="" />
+             <img class="bzoom_big_image" src='/media/{{p.Image1}}' alt=""/>
+             </li>
+             <li>
+               <img class="bzoom_thumb_image" src='/media/{{p.Image2}}' title="first img" />
+               <img class="bzoom_big_image" src='/media/{{p.Image2}}'/>
+               </li>
+               <li>
+                <img class="bzoom_thumb_image" src='/media/{{p.Image3}}' title="first img" />
+                <img class="bzoom_big_image" src='/media/{{p.Image3}}'/>
+                </li>
+             {% endfor %}
+            </ul>
+            <script type="text/javascript">
+             $("#zoom").zoom({
+               zoom_area_width:300,
+                 autoplay_interval :3000,
+                 small_thumbs :3,
+                 autoplay : false
+             });
+             </script>
+           </div>
+        </div>
+    {% endblock %}

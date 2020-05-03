@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load app_filter %}
+{% for message in messages %}
+      {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+      <div class="alert alert-danger" role="alert">
+      <img class=".img-fluid" src='{% static "image/invalid.png" %}' style="width:20px; height:20px;"><span>
+      {{message}}
+      {% endif %}</span></div>
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+    <div class="alert alert-success" role="alert">
+    <img class=".img-fluid" src='{% static "image/valid.png" %}' style="width:20px; height:20px;"><span>
+    {{message}}
+    {% endif %}</span></div>
+    {% endfor %}
+      <div class="container mt-5">
+          <div class="row">
+              <div class="col-2" style="border-right:3px solid black; height: 100%;padding-left:0px; margin-left: 0px;;">
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#Myaccount" role="tab" data-toggle="tab">My Account</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#Myorder" role="tab" data-toggle="tab">My order</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#address" role="tab" data-toggle="tab">My Adddress</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'showcart' %}" >My Cart</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#Addaddress"  role="tab" data-toggle="tab">Add Address</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#changedaddress"  role="tab" data-toggle="tab">Change Address</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#Accountchange"  role="tab" data-toggle="tab">Change Account</a>
+                    </li>
+                  </ul>
+                  
+              </div>
+              <div class="col-10 tab-content table-responsive">
+                  <div role="tabpane1" class="tab-pane fade in" id="Myorder">
+                    <table class="table" style="overflow-y:auto; overflow-x:auto;">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col">Product Id</th>
+                          <th scope="col">Product Name</th>
+                          <th scope="col">Order Date</th>
+                          <th scope="col">Stats</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Delevered Date</th>
+                          <th scope="col">Show Now</th>
+                          <th scope="col">Cancle</th>
+                          <th scope="col">Reating Now</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text">
+                        {% if userorder %}
+                        {% for i in userorder %}
+                        <tr>
+                          <td>{{i.product_id}}</td>
+                          <td>{{i.product_name}}</td>
+                          <td scope="row">{{i.order_date}}</td>
+                          <td>{{i.Track}}</td>
+                          <td>{{i.price}}</td>
+                          <td>{{i.delevered_date}}</td>
+                          <td><a href='/shop/proddesc/{{i.product_id}}' class="btn btn-primary">Show</a></td>
+                          <td><a href='/shop/delete/{{i.id}}' class="btn btn-danger">Cancle</a></td>
+                          <td scope="row">
+                            <form class="form-group  row" action="{% url 'reating' %}" method="post">
+                              {% csrf_token %}
+                              <input type="submit" value="Reating now" class="btn btn-primary" class="form-control"></span>
+                             <input type="number" placeholder="reating" min="1" max="4"  name="rate" class="form-control"><span>
+                             <input type="hidden" value={{i.product_id}} name="productid">
+                            </form>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <small class="text-danger " style="font-family: 'Baloo Bhai 2', cursive; font-size:20px;">Not Record Found</small>
+                        {% endif %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div role="tabpane1" class="tab-pane fade in " id="address">
+                    <table class="table" style="overflow-y:auto;">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col">Cuntery</th>
+                          <th scope="col">State</th>
+                          <th scope="col">District</th>
+                          <th scope="col">Post</th>
+                          <th scope="col">Village</th>
+                          <th scope="col">Home No</th>
+                          <th scope="col">phone</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text">
+                        {% if useraddress %}
+                        {% for i in useraddress %}
+                        <tr>
+                          <td>{{i.countery}}</td>
+                          <td>{{i.state}}</td>
+                          <td>{{i.district}}</td>
+                          <td>{{i.post}}</td>
+                          <td>{{i.village}}</td> 
+                          <td>{{i.Home_No}}</td> 
+                          <td>{{i.phone}}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <small class="text-danger " style="font-family: 'Baloo Bhai 2', cursive; font-size: 60px;">Not Record Found Please Add Address</small>
+                        {% endif %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div role="tabpane1" class="tab-pane fade in " id="Addaddress">
+                    <form class="form" action="{% url 'addaddress' %}" method="post">
+                      {% csrf_token %}
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="Country">Country</label>
+                          <select id="country" class="form-control" name="countery" required>
+                            <option value="India">Inadia</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="State">State</label>
+                          <select id="s1" class="form-control" name="state" required>
+                            <option value="Choose">Choose...</option>
+                            {% for i in allstate %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="form-group">
+                          <label for="State">District</label>
+                          <input type="text" class="form-control" name="district" placeholder="District name" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="post">Post</label>
+                          <input type="text" class="form-control" name="pots" placeholder="Post name" required>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="Village">Village</label>
+                          <input type="text" class="form-control" placeholder="Apartment" name="village" required>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="Home">Home No</label>
+                          <input type="text" class="form-control"  placeholder="Hone No" name="home" required>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="Home">Phone</label>
+                          <input type="text" class="form-control"  placeholder="Phone" name="phone" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="gridCheck" name="check" required>
+                          <label class="form-check-label" for="gridCheck">
+                            Check me out
+                          </label>
+                        </div>
+                      </div>
+                      <input type="submit" class="btn btn-primary" value="Save">
+                    </form>
+                  </div>
+            
+            <div role="tabpane1" class="tab-pane fade in " id="changedaddress">
+              <form class="form" action="{% url 'changeaddress' %}" method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="Country">Country</label>
+                    <select id="country" class="form-control" name="countery" required>
+                      <option value="India">Inadia</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="State">State</label>
+                    <select id="s1" class="form-control" name="state" required>
+                      <option value="Choose">Choose...</option>
+                      {% for i in allstate %}
+                      <option value="{{i}}">{{i}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-group">
+                    <label for="State">District</label>
+                    <input type="text" class="form-control" name="district" placeholder="District name" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="post">Post</label>
+                    <input type="text" class="form-control" name="pots" placeholder="Post name" required>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="Village">Village</label>
+                    <input type="text" class="form-control" placeholder="Apartment" name="village" required>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="Home">Home No</label>
+                    <input type="text" class="form-control"  placeholder="Hone No" name="home" required>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="Home">Phone</label>
+                    <input type="text" class="form-control"  placeholder="Phone" name="phone" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck" name="check" required>
+                    <label class="form-check-label" for="gridCheck">
+                      Check me out
+                    </label>
+                  </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="change">
+              </form>
+            </div>
+            <div role="tabpane1" class="tab-pane fade in active " id="Myaccount">
+              <table class="table" style="overflow-y:auto;">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">User Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                  </tr>
+                </thead>
+                <tbody class="text">
+                  {% for i in userdetails %}
+                  <tr>
+                    <td >{{i.id}}</td>
+                    <td >{{i.name}}</td>
+                    <td>{{i.email}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div role="tabpane1" class="tab-pane fade in " id="Accountchange">
+              <form class="form" action="{% url 'chageaccount' %}" method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="Name">User Name</label>
+                    <input type="text" class="form-control" id="Name" placeholder="User Name" name="username" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="Email">Email Id</label>
+                    <input type="email" class="form-control" id="Email" placeholder="Email" name="useremail" required>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Change</button>
+              </form>
+            </div>
+      </div>
+          </div>
+        </div>
+       
+        {% endblock %}  

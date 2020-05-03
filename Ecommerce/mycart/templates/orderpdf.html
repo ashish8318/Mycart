@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Order</title>
+        
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .title2 {
+                color:lightseagreen;
+                font-size: 15px;
+                font-weight:50;
+                text-align: center;
+            }
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                color: cadetblue;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+            .color{
+                color:lightcoral
+            }
+            table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+.signature{
+    border: none;
+    text-align: center;
+  padding: 15px;
+}
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div class='header'>
+                <p class='title'>Mycart.com</p>
+            </div>
+            <div class="title2">
+            <p>Order lsit</p>
+            </div>
+        </div>
+        <div class='details'>
+            Name: <span class="color">{{userobj.0.name}}</span><br/>
+            Order Id: <span class="color">{{orderobj.0.order_id}}</span><br/>
+            User Id: <span class="color">{{orderobj.0.user_id}}</span><br/>
+            Date: <span class="color">{{Date}}</span><br/>
+            Address: <span class="color">{{address.0.countery}}, {{address.0.state}}, {{address.0.district}}, {{address.0.post}}, {{address.0.post}}, {{address.0.village}}</span><br/>
+            Home No: <span class="color">{{address.0.Home_No}}</span><br/>
+            Mobile: <span class="color">{{address.0.phone}}</span><br/>
+            <hr class='hrItem' />
+        </div><br>
+        <br>
+            <table>
+                <tr>
+                  <th>s.No.</th>
+                  <th>Product Name</th>
+                  <th>Price</th>
+                </tr>
+                {% for i in orderobj %}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td>{{i.product_name}}</td>
+                  <td>Rs {{i.price}}</td>
+                </tr>
+                {% endfor %}
+              <tr>
+                  <td class="tdl"> </td>
+                  <td class="tdl"> </td>
+                  <td>Total Price {{sum}}</td>
+              </tr>
+            </table>
+            <br>
+            <br>
+           <br>
+            <table>
+                <tr>
+                  <th class="signature">Order Manager</th>
+                  <th class="signature">Customer</th>
+                </tr>
+                
+            </table>
+            
+    </body>
+</html>

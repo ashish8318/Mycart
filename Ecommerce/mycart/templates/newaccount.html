@@ -1,0 +1,30 @@
+{% extends 'formbase.html' %}
+{% block body %}
+<div style="width:500px;">
+            <div class="imgcontainer">
+              <span style="font-size: 3em; color: Tomato;"><i class="fab fa-shopify"></i></span> 
+            </div>
+            {% for message in messages %}
+            <div class="alert alert-danger p-0 m-0" role="alert">
+              {{message}}
+            </div>
+            {% endfor %}
+            <form action="{% url 'newaccount' %}" method='post'>{% csrf_token %}
+            <div class="container">
+              <label for="user"><b>User Name</b></label>
+              <input type="text" placeholder="User Name" name="user" class="border" required>
+
+              <label for="email"><b>Email Id</b></label>
+              <input type="email" placeholder="Enter Email" name="email" class="border" required>
+          
+              <label for="password"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="password" class="border" required >
+              <input class="btn btn-success btn-lg btn-block mt-2" type="submit" value="Create Account" name="button1">
+              
+            </div>
+          </form>
+          <div class="container" style="background-color:#f1f1f1"><br>
+            <a href="{% url 'about' %}"><i class=" fa-2x fas fa-arrow-circle-left"></i></a><br>
+          </div>
+        <div>
+     {% endblock %}

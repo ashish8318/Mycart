@@ -1,0 +1,49 @@
+[data-theme="dark"] {
+  background-color: #111 !important;
+  color: #eee;
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: #333 !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: #000 !important;
+}
+
+[data-theme="dark"] .bg-black {
+  background-color: #eee !important;
+}
+
+[data-theme="dark"] .bg-primary {
+  background-color: black !important;
+}
+
+[data-theme="dark"] .form-inline {
+  border: none !important;
+}
+
+[data-theme="dark"] .form,.form-group {
+  border: none !important;
+}
+
+[data-theme="dark"] .text {
+  color: white !important;
+}
+
+[data-theme="dark"] .jumbotron {
+  background-color: black !important;
+}
+
+[data-theme="dark"] .container {
+  background-color: black !important;
+  border: none !important;
+}
+
+[data-theme="dark"] .mt-0,.m-1 {
+  color: black !important;
+  
+}
+
+
+
