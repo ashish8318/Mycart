@@ -19,7 +19,8 @@ User visit first page that dispaly like more selling product, feature poduct, mo
  * **Admin Dashbord:** Admin add product, delete product, show order, cancele order,print order, add address, he perfom all functionality that are provide default by django. 
 
 # Screenshot
-![](shop.png)
+![](Ecommerce/mycart/mycart/static/image/shop.png
+)
 # Files/foder in onlineshop app
 
   * **Settings:** This is the main file of django app. This is contain configuration system like all install app , database, middleware,templates etc.
