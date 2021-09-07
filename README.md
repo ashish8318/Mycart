@@ -68,6 +68,6 @@ I use some command:-
  python manage.py runserver 
  ```
 
- # Run Chatapp
+ # Run This App
  My onlinecartshop is host on heroku server. you can visit click on this link :
  [onlineshop](https://onlinecityshop.herokuapp.com/shop)
